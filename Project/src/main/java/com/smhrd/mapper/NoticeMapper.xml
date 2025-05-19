@@ -4,7 +4,7 @@
 
 <!-- sql 공지껄로 바꿔야됌 일단 tb_qna로 -->
 	<select id="NoticeList" resultType="com.smhrd.model.NoticeVO">
-		SELECT * FROM tb_qna 
+		SELECT * FROM tb_notice
 	</select>
 
 

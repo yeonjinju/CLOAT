@@ -19,8 +19,9 @@
 				<c:forEach items="${list}" var="bvo">
 
 					<tr>
-						<td>${bvo.qna_idx}</td>
-						<td>${bvo.qna_title}</td>
+						<!-- 테이블 수정 -->
+						<td>${bvo.review_idx}</td>
+						<td>${bvo.review_title}</td>
 						<td>${bvo.id}</td>
 						<td>${bvo.created_at}</td>
 					</tr>

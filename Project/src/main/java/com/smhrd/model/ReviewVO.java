@@ -9,13 +9,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewVO {
-// 테이블 바꿔야됨
-	private int qna_idx;
-	private String qna_title;
-	private String qna_content;
-	private int qna_file;
-	private String qna_views;
-	private String id;
+public class ReviewVO {	
+	
+	private int review_idx;
+	private String review_title;
+	private String review_content;
+	private String review_file;
 	private Date created_at;
+	private Date upddated_at;
+	private String review_views;
+	private String id;
 }

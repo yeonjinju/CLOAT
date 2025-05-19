@@ -1,4 +1,3 @@
-
 <%@include file="./includes/header.jsp"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -19,9 +18,9 @@
 				<c:forEach items="${list}" var="bvo">
 
 					<tr>
-						<td>${bvo.qna_idx}</td>
-						<td>${bvo.qna_title}</td>
-						<td>${bvo.id}</td>
+						<td>${bvo.notice_idx}</td>
+						<td>${bvo.notice_title}</td>
+						<td>${bvo.admin_id}</td>
 						<td>${bvo.created_at}</td>
 					</tr>
 				</c:forEach>

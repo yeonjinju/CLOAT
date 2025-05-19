@@ -1,7 +1,6 @@
 package com.smhrd.model;
 
-import java.util.Date;
-
+import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,12 +9,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewsVO {
-// 테이블 바꿔야됨
-	private int qna_idx;
-	private String qna_title;
-	private String qna_content;
-	private int qna_file;
-	private String qna_views;
-	private String id;
-	private Date created_at;
+
+    private Long news_idx;            // 공지 식별자
+    private String news_title;        // 제목
+    private String news_content;      // 내용 (CLOB)
+    private String news_file;         // 첨부 파일명
+    private Long news_views;          // 조회수
+    private Timestamp created_at;     // 생성일
+    private Timestamp updated_at;     // 수정일
+    private String admin_id;          // 작성자 아이디 (FK)
 }

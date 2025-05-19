@@ -10,12 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NoticeVO {
-// 테이블 바꿔야됨
-	private int qna_idx;
-	private String qna_title;
-	private String qna_content;
-	private int qna_file;
-	private String qna_views;
+
+	private int notice_idx;
+	private String notice_title;
+	private String notice_content;
+	private String notice_file;
+	private String notice_views;
+	// 왜...... admin작성자가 안뜨는거지
+    private String admin_id;          // 작성자 아이디 (FK)
 	private String id;
 	private Date created_at;
 }
