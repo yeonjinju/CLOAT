@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smhrd.mapper.NoticeMapper">
+
+<!-- sql 공지껄로 바꿔야됌 일단 tb_qna로 -->
+	<select id="NoticeList" resultType="com.smhrd.model.NoticeVO">
+		SELECT * FROM tb_qna 
+	</select>
+
+
+
+
+</mapper>
