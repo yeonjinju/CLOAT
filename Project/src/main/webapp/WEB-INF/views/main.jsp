@@ -1,3 +1,5 @@
-<%@ include file="./includes/header.jsp" %>
+   <%@include file="./includes/header.jsp" %>
+   <section class="main content">
 
-<%@ include file="./includes/footer.jsp" %>
+   </section>
+   <%@include file="./includes/footer.jsp" %>

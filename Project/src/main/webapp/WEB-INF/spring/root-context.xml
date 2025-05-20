@@ -20,8 +20,9 @@
 
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="hikariDatasource"/>
+		
 	</bean>
 
-	<mybatis-spring:scan base-package="com.smhrd.mapper"/>
+	<mybatis-spring:scan base-package="com.smhrd" />
 	
 </beans>

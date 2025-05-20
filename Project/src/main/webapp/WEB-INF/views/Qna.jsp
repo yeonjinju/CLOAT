@@ -1,34 +1,87 @@
-
 <%@include file="./includes/header.jsp"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<div class="jumbotron text-center">
-	<h1>고객문의 게시판 입니다.</h1>
-	<p>문의사항 내용 문희는 포도가 먹고시푼뎅~</p>
-</div>
-<div class="container">
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<table class="table table-bordered" border="1">
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+	<section class="content board list">
+		<div class="page_top">
+			<div class="inner">
+				<h2 class="pageName">고객문의</h2>
+			</div>
+		</div>			
+		<div class="inner">
+			<table class="tb">
+				<colgroup>
+					<col width="5%">
+					<col width="60%">
+					<col width="10%">
+					<col width="10%">
+					<col width="5%">
+				</colgroup>
 				<tr>
-					<td>번호</td>
-					<td>제목</td>
-					<td>작성자</td>
-					<td>작성일</td>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>작성일</th>
+					<th>조회수</th>
 				</tr>
+				<!-- 게시판 테이블에 있는 내용 불러오기 / 한 목록에 10개씩, 최신순 -->
 				<c:forEach items="${list}" var="bvo">
-
 					<tr>
 						<td>${bvo.qna_idx}</td>
-						<td>${bvo.qna_title}</td>
+						<td class="tb_title">
+							<a href="resources/assets/html/boardView.html">${bvo.qna_title}</a>	
+						</td>
 						<td>${bvo.id}</td>
-						<td>${bvo.created_at}</td>
+						<td><fmt:formatDate value="${bvo.created_at}" pattern="yyyy.MM.dd" /></td>
+						<td>10</td>
 					</tr>
 				</c:forEach>
 				<c:if test="${empty list}">
 					<p>게시물이 없습니다.</p>
-				</c:if>
+				</c:if>									
 			</table>
-	</div>
-</div>
+			<div class="btn_wrap">
+				<!--
+					로그인 안했으면 : '로그인해주세요' alert;
+					로그인 했으면 : 글쓰기 페이지로 이동; 
+				-->
+				<button onClick="writeBtn()" class="btn ipt_sbm">글쓰기</button>
+				<script>
+					let writeBtn = () => {
+						// 로그인 상태 아니면
+						//alert('로그인해주세요');
+						// 로그인 상태면
+						// -> 아이디 정보 가지고 글쓰기 페이지로 이동
+						window.location.href = "resources/assets/html/boardWrite.html;
+					}
+				</script>				
+			</div>
+
+			<!-- 페이징 -->
+			<div class="pg_wrap">
+				<a href=""><img src="resources/images/p_prev.png" alt=""></a>
+				<a href="">1</a>
+				<a href="">2</a>
+				<a href="">3</a>
+				<a href="">4</a>
+				<a href="">5</a>
+				<a href=""><img src="resources/images/p_next.png" alt=""></a>
+			</div>
+
+			<!-- 검색창 -->
+			<div class="search_form">
+				<form>
+					<select class="sel">
+						<option name="">내용+댓글</option>
+						<option name="">내용</option>
+						<option name="">제목</option>
+						<option name="">작성자</option>
+					</select>
+					<input class="ipt_tt" type="text" name="" placeholder="검색어 입력">
+					<input class="ipt_sbm" type="submit" value="검색">
+				</form>
+			</div>
+			
+		</div>	
+	</section>
 <%@include file="./includes/footer.jsp"%>
