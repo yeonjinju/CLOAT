@@ -15,7 +15,7 @@ public class NoticeVO {
 	private String notice_title;
 	private String notice_content;
 	private String notice_file;
-	private String notice_views;
+	private String notice_views;	
 	// 왜...... admin작성자가 안뜨는거지
     private String admin_id;          // 작성자 아이디 (FK)
 	private String id;

@@ -7,25 +7,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.smhrd.mapper.BoardMapper;
-import com.smhrd.model.BoardVO;
+import com.smhrd.mapper.QnaMapper;
+import com.smhrd.model.QnaVO;
 
 @Controller 
-public class BoardController {
+public class QnaController {
 	
 	@Autowired
-	BoardMapper mapper;
+	QnaMapper mapper;
 
 	
-	@RequestMapping("/BoardList")
-	public String BoardList(Model model) {
-	    List<BoardVO> list = mapper.BoardList();
+	@RequestMapping("/QnaList")
+	public String QnaList(Model model) {
+	    List<QnaVO> list = mapper.QnaList();
 
 	    // 여기서 데이터 개수 로그 찍기
 	    System.out.println("가져온 데이터 개수: " + list.size());
 
 	    model.addAttribute("list", list);
-	    return "Board";
+	    return "Qna";
 	}
 
 }

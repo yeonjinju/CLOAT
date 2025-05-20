@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.smhrd.model.BoardVO;
+import com.smhrd.model.QnaVO;
 
 @Mapper
-public interface BoardMapper {
+public interface QnaMapper {
 
-	public List<BoardVO> BoardList();
+	public List<QnaVO> QnaList();
 	
 }

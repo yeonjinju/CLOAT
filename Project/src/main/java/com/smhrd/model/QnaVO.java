@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardVO {
+public class QnaVO {
 
 	private int qna_idx;
 	private String qna_title;
