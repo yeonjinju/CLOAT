@@ -31,5 +31,40 @@
         UPDATE tb_notice SET notice_views = notice_views + 1
         WHERE notice_idx = #{noticeIdx}
     </update>
+    
+    
+    
+    
+    
+    
+    
+	<select id="NoticeSearch" resultType="com.smhrd.notice.NoticeVO">
+		select * from tb_notice
+		<where>
+			<choose>
+				<when test="param1 == 'notice_title'">
+					notice_title LIKE '%' || #{param2} || '%'
+				</when>
+				<when test="param1 == 'notice_content'">
+					notice_content LIKE '%' || #{param2} || '%'
+				</when>
+				<otherwise>
+					admin_id = null
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<insert id="write" parameterType="com.smhrd.notice.NoticeVO">
+		insert into tb_notice(notice_title, notice_content, notice_file, created_at,
+		updated_at, notice_views, admin_id) values(
+		#{notice_title},
+		#{notice_content}, #{notice_file}, systimestamp, systimestamp,
+		#{notice_views}, #{admin_id}
+		)
+	</insert>
+    
+    
+    
 
 </mapper>

@@ -31,5 +31,39 @@
         UPDATE tb_news SET news_views = news_views + 1
         WHERE news_idx = #{newsIdx}
     </update>
+    
+    
+    
+    
+    
+    
+	<select id="NewsSearch" resultType="com.smhrd.news.NewsVO">
+		select * from tb_news
+		<where>
+			<choose>
+				<when test="param1 == 'news_title'">
+					news_title LIKE '%' || #{param2} || '%'
+				</when>
+				<when test="param1 == 'news_content'">
+					news_content LIKE '%' || #{param2} || '%'
+				</when>
+				<otherwise>
+					admin_id = null
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<insert id="write" parameterType="com.smhrd.news.NewsVO">
+		insert into tb_news(news_title, news_content, news_file, created_at,
+		updated_at, news_views, admin_id) values(
+		#{news_title},
+		#{news_content}, #{news_file}, systimestamp, systimestamp,
+		#{news_views}, #{admin_id}
+		)
+	</insert>
+    
+    
+    
 
 </mapper>

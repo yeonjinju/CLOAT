@@ -15,7 +15,7 @@ public class NoticeVO {
     private String notice_title;
     private String notice_content;
     private String notice_file;
-    private String notice_views;
+    private int notice_views;
     private String admin_id;
     private String id;
     private Date created_at;

@@ -41,22 +41,29 @@
 				<p>게시물이 없습니다.</p>
 			</c:if>
 		</table>
-		<div class="btn_wrap">
-			<!--
+		
+		<!-- 글쓰기 -->
+			<div class="btn_wrap">
+				<!--
 					로그인 안했으면 : '로그인해주세요' alert;
 					로그인 했으면 : 글쓰기 페이지로 이동; 
 				-->
-			<button onClick="writeBtn()" class="btn ipt_sbm">글쓰기</button>
-			<script>
+				<button onClick="writeBtn()" class="btn ipt_sbm">글쓰기</button>
+				<script>
 					let writeBtn = () => {
 						// 로그인 상태 아니면
 						//alert('로그인해주세요');
+						<c:if test="${!empty mvo}">
+							window.location.href = "QnaWrite";
+						</c:if>
+						<c:if test="${empty mvo}">
+							alert('로그인해주세요');
+						</c:if>
 						// 로그인 상태면
 						// -> 아이디 정보 가지고 글쓰기 페이지로 이동
-						window.location.href = "resources/assets/html/qnaWrite.html;
 					}
-				</script>
-		</div>
+				</script>				
+			</div>
 
 		<!-- 페이징 -->
 		<div class="pg_wrap">
@@ -90,20 +97,20 @@
 		</div>
 
 
-
-		<!-- 검색창 -->
-		<div class="search_form">
-			<form>
-				<select class="sel">
-					<option name="">내용+댓글</option>
-					<option name="">내용</option>
-					<option name="">제목</option>
-					<option name="">작성자</option>
-				</select> <input class="ipt_tt" type="text" name="" placeholder="검색어 입력">
-				<input class="ipt_sbm" type="submit" value="검색">
-			</form>
-		</div>
-
-	</div>
-</section>
+			<!-- 검색창 -->
+			<div class="search_form">
+				<form action="QnaSearch">
+					<select class="sel" name="searchValue">
+						<!-- <option name="">내용+댓글</option> -->
+						<option value="qna_content">내용</option>
+						<option value="qna_title">제목</option>
+						<option value="id">작성자</option>
+					</select>
+					<input class="ipt_tt" type="text" name="searchContent" placeholder="검색어 입력">
+					<input class="ipt_sbm" type="submit" value="검색">
+				</form>
+			</div>
+			
+		</div>	
+	</section>
 <%@ include file="/WEB-INF/views/includes/footer.jsp"%>

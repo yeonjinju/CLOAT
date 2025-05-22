@@ -32,4 +32,35 @@
         WHERE qna_idx = #{qnaIdx}
     </update>
 
+
+
+
+    
+    
+    
+    
+	<select id="QnaSearch" resultType="com.smhrd.qna.QnaVO">
+		select * from tb_qna
+		<where>
+			<choose>
+				<when test="param1 == 'qna_title'">
+					qna_title LIKE '%' || #{param2} || '%'
+				</when>
+				<when test="param1 == 'qna_content'">
+					qna_content LIKE '%' || #{param2} || '%'
+				</when>
+				<otherwise>
+					admin_id = null
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<insert id="write" parameterType="com.smhrd.qna.QnaVO">
+		insert into tb_qna(qna_title, qna_content, qna_file, created_at,
+		qna_views, id) values(
+		#{qna_title}, #{qna_content}, #{qna_file}, systimestamp, #{qna_views}, #{id}
+		)
+	</insert>
+
 </mapper>

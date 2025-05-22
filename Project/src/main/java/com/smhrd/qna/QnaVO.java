@@ -15,7 +15,7 @@ public class QnaVO {
 	private String qna_title;
 	private String qna_content;
 	private String qna_file;
-	private String qna_views;
+	private int qna_views;
 	private String id;
 	private Date created_at;
 }

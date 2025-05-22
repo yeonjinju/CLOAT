@@ -31,5 +31,46 @@
         UPDATE tb_review SET review_views = review_views + 1
         WHERE review_idx = #{reviewIdx}
     </update>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+	<select id="ReviewSearch" resultType="com.smhrd.review.ReviewVO">
+		select * from tb_review
+		<where>
+			<choose>
+				<when test="param1 == 'review_title'">
+					review_title LIKE '%' || #{param2} || '%'
+				</when>
+				<when test="param1 == 'review_content'">
+					review_content LIKE '%' || #{param2} || '%'
+				</when>
+				<when test="param1 == 'id'">
+					id LIKE '%' || #{param2} || '%'
+				</when>
+				<otherwise>
+					id = null
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<insert id="write" parameterType="com.smhrd.review.ReviewVO">
+		insert into tb_review(review_title, review_content, review_file, created_at,
+		updated_at, review_views, id) values(
+		#{review_title},
+		#{review_content}, #{review_file}, systimestamp, systimestamp,
+		#{review_views}, #{id}
+		)
+	</insert>
 
 </mapper>

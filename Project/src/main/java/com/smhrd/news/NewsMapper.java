@@ -17,4 +17,14 @@ public interface NewsMapper {
     List<NewsVO> getNewssByPage(@Param("startRow") int startRow, @Param("endRow") int endRow);
 
     void updateNewsViews(@Param("newsIdx") int newsIdx);
+    
+    
+    
+    
+
+    
+
+	public int write(NewsVO vo);
+
+	public List<NewsVO> NewsSearch(String searchValue, String searchContent);
 }
