@@ -6,4 +6,30 @@
 		SELECT * FROM tb_qna
 	</select>
 
+    <select id="getQna" parameterType="int" resultType="com.smhrd.qna.QnaVO">
+        SELECT * FROM tb_qna WHERE qna_idx = #{qna_idx}
+    </select>
+
+    <select id="getTotalCount" resultType="int">
+        SELECT COUNT(*) FROM tb_qna
+    </select>
+
+    <select id="getQnasByPage" resultType="com.smhrd.qna.QnaVO">
+    <![CDATA[
+        SELECT * FROM (
+            SELECT ROWNUM rn, a.*
+            FROM (
+                SELECT * FROM tb_qna ORDER BY created_at DESC
+            ) a
+            WHERE ROWNUM <= #{endRow}
+        )
+        WHERE rn >= #{startRow}
+    ]]>
+    </select>
+
+    <update id="updateQnaViews" parameterType="int">
+        UPDATE tb_qna SET qna_views = qna_views + 1
+        WHERE qna_idx = #{qnaIdx}
+    </update>
+
 </mapper>

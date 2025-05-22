@@ -6,7 +6,30 @@
 		SELECT * FROM tb_news 
 	</select>
 
+    <select id="getNews" parameterType="int" resultType="com.smhrd.news.NewsVO">
+        SELECT * FROM tb_news WHERE news_idx = #{news_idx}
+    </select>
 
+    <select id="getTotalCount" resultType="int">
+        SELECT COUNT(*) FROM tb_news
+    </select>
 
+    <select id="getNewssByPage" resultType="com.smhrd.news.NewsVO">
+    <![CDATA[
+        SELECT * FROM (
+            SELECT ROWNUM rn, a.*
+            FROM (
+                SELECT * FROM tb_news ORDER BY created_at DESC
+            ) a
+            WHERE ROWNUM <= #{endRow}
+        )
+        WHERE rn >= #{startRow}
+    ]]>
+    </select>
+
+    <update id="updateNewsViews" parameterType="int">
+        UPDATE tb_news SET news_views = news_views + 1
+        WHERE news_idx = #{newsIdx}
+    </update>
 
 </mapper>

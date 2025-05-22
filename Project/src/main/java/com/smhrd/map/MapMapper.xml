@@ -8,23 +8,26 @@
 	
 	<select id="searchMap" resultType="com.smhrd.map.MapVO">
 		SELECT * FROM tb_map 
-    	WHERE addr LIKE '%' || #{search} || '%' 
-       OR org_name LIKE '%' || #{search} || '%' 
-       OR sido LIKE '%' || #{search} || '%' 
-       OR sigungu LIKE '%' || #{search} || '%'
+    	WHERE (addr LIKE '%' || #{param1} || '%' 
+       OR org_name LIKE '%' || #{param1} || '%' 
+       OR sido LIKE '%' || #{param1} || '%' 
+       OR sigungu LIKE '%' || #{param1} || '%')
+       and org_type = #{param2}
 	</select>
 	
 	<!-- 지역 -->
 	<select id="searchMap1" resultType="com.smhrd.map.MapVO">
 		SELECT * FROM tb_map 
-    	WHERE sido LIKE '%' || #{search} || '%' 
-       OR sigungu LIKE '%' || #{search} || '%'
+    	WHERE (sido LIKE '%' || #{param1} || '%' 
+       OR sigungu LIKE '%' || #{param1} || '%')
+       and org_type = #{param2}
 	</select>
 	
 	<!-- 기관명 -->
 	<select id="searchMap2" resultType="com.smhrd.map.MapVO">
 		SELECT * FROM tb_map 
-    	WHERE org_name LIKE '%' || #{search} || '%' 
+    	WHERE org_name LIKE '%' || #{param1} || '%' 
+    	and org_type = #{param2}
 	</select>
 	
 	<!-- 주소 -->

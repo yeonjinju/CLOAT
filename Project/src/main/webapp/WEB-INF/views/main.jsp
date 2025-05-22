@@ -1,5 +1,5 @@
-   <%@include file="./includes/header.jsp" %>
+   <%@include file="/WEB-INF/views/includes/header.jsp" %>
    <section class="main content">
 
    </section>
-   <%@include file="./includes/footer.jsp" %>
+   <%@include file="/WEB-INF/views/includes/footer.jsp" %>

@@ -14,41 +14,41 @@
     <div class="page_top">
         <div class="inner">
             <!-- 공지사항 제목을 상단에 출력 -->
-            <h2 id="pageName">${bvo.notice_title}</h2>
+            <h2 id="pageName">공지사항</h2>
         </div>
     </div>			
     <div class="inner">
         <div class="view_wrap">
             <div class="view_top">
-                <h3 class="view_title">${bvo.notice_title}</h3>
+                <h3 class="view_title">${notice.notice_title}</h3>
                 <div class="view_info">
                     <div class="view_info_lt">
-                        <p><span>작성자</span> ${bvo.notice_writer}</p>
-                        <p><span>조회수</span> ${bvo.notice_views}</p>
+                        <p><span>작성자</span> ${notice.admin_id}</p>
+                        <p><span>조회수</span> ${notice.notice_views}</p>
                     </div>
                     <div class="view_info_rt">
-                        <p><span>작성날짜</span> ${bvo.notice_date}</p>
+                        <p><span>작성날짜</span> ${notice.created_at}</p>
                     </div>
                 </div>
             </div>
             <div class="view_btm">
-                ${bvo.notice_content}
+                ${notice.notice_content}
                 
                 <!-- 첨부파일이 있을 경우 표시 -->
-                <c:if test="${not empty bvo.notice_file}">
+                <c:if test="${not empty notice.notice_file}">
                     <div class="view_file">
-                        <a href="${pageContext.request.contextPath}/upload/${bvo.notice_file}" download>${bvo.notice_file}</a>
+                        <a href="${pageContext.request.contextPath}/upload/${notice.notice_file}" download>${notice.notice_file}</a>
                     </div>
                 </c:if>
             </div>
         </div>				
         <div class="btn_wrap">
             <!-- 해당 글 작성자 또는 관리자일 경우 버튼 표시 -->
-            <c:if test="${sessionScope.userId eq bvo.notice_writer || sessionScope.userRole eq 'admin'}">
-                <button onClick="location.href='NoticeEdit.jsp?no=${bvo.notice_no}'" class="btn">수정</button>
-                <button onClick="location.href='NoticeDelete.jsp?no=${bvo.notice_no}'" class="btn">삭제</button>
+			<c:if test="${sessionScope.userId eq notice.admin_id or sessionScope.userRole eq 'admin'}">
+                <button onClick="location.href='NoticeEdit.jsp?no=${notice.notice_no}'" class="btn">수정</button>
+                <button onClick="location.href='NoticeDelete.jsp?no=${notice.notice_no}'" class="btn">삭제</button>
             </c:if>
-            <button onClick="javascript:history.back()" class="btn ipt_sbm">목록</button>
+			<a href="${pageContext.request.contextPath}/NoticeList?pageNum=${pageNum}" class="btn ipt_sbm">목록</a>
         </div>				
     </div>	
 </section>
