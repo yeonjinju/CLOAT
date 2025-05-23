@@ -30,9 +30,9 @@
 						<input type="file" name="file" class="ipt_tt">
 					</li>					
 				</ul>
-				<div class="btn_wrap">
-					<a class="btn btn_cancle" href="javascript:history.back();">취소</a>
-					<input class="btn ipt_sbm" type="submit" value="작성완료">					
+				<div class="bttn_wrap">
+					<a class="bttn bttn_cancle" href="javascript:history.back();">취소</a>
+					<input class="bttn ipt_sbm" type="submit" value="작성완료">					
 				</div>
 			</form>
 		</div>	

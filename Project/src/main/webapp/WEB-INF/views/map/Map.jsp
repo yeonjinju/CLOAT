@@ -1,5 +1,6 @@
 <%@include file="/WEB-INF/views/includes/header.jsp" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <style>
@@ -164,7 +165,18 @@ li.on{
   color: #009688;
   font-weight: bold;
 }
+
+div.cont{
+	cursor: pointer; /* 마우스 커서를 손가락 모양으로 */
+    transition: background-color 0.2s ease; /* 부드러운 효과 */
+}
+
+div.cont:hover {
+    background-color: #f0f0f0; /* 마우스 올릴 때 배경색 변화 */
+    border : 1px solid green;
+}
 </style>
+
 <section class="main content">
 	<div class="sub-area">
 		<ul class="list">
@@ -239,6 +251,9 @@ li.on{
 			level : 8 // 지도의 확대 레벨
 		};
    		
+   		var infowindowArray = [];
+   		var markers = [];
+   		
    		// 지도를 생성합니다    
 		var map = new kakao.maps.Map(mapContainer, mapOption);
    		
@@ -266,18 +281,20 @@ li.on{
 		            latlng: new kakao.maps.LatLng(${center.lat}, ${center.lon})
 		        }<c:if test="${!status.last}">,</c:if>
 		    </c:forEach>
-		];
+		]
+		var selectedMarker = null;
 		
 		// 마커 이미지의 이미지 주소입니다
 		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-		    
-		for (var i = 0; i < positions.length; i ++) {
-		    
-		    // 마커 이미지의 이미지 크기 입니다
-		    var imageSize = new kakao.maps.Size(24, 35); 
-		    
-		    // 마커 이미지를 생성합니다    
-		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+		
+		// 마커 이미지의 이미지 크기 입니다
+	    var imageSize = new kakao.maps.Size(24, 35); 
+	    var imageSize2 = new kakao.maps.Size(48, 70); 
+	    // 마커 이미지를 생성합니다    
+	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+		var clickImage = new kakao.maps.MarkerImage(imageSrc, imageSize2);     
+	    
+		for (let i = 0; i < positions.length; i ++) {
 		    
 		    // 마커를 생성합니다
 		    var marker = new kakao.maps.Marker({
@@ -292,27 +309,45 @@ li.on{
 		        content: positions[i].content // 인포윈도우에 표시할 내용
 		    });
 		    
-		 	// 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
-		    // 이벤트 리스너로는 클로저를 만들어 등록합니다 
-		    // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-		    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-		    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+		    infowindowArray.push(infowindow);
+		    markers.push(marker); // 배열에 마커 저장
+		    
+		    // 마커에 click 이벤트를 등록합니다
+		    kakao.maps.event.addListener(marker, 'click', test(map,marker,infowindow, positions[i].latlng));
+		 	
 		}
-	 
-		// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-		function makeOverListener(map, marker, infowindow) {
-		    return function() {
-		        infowindow.open(map, marker);
-		    };
+		
+		function test(map, marker,infowindow,latlng){
+			return function(){
+				closeInfoWindow();
+				infowindow.open(map, marker);
+				selectedMarker = marker;
+				map.panTo(latlng);
+			};
 		}
-
-		// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
-		function makeOutListener(infowindow) {
-		    return function() {
-		        infowindow.close();
-		    };
+	
+		
+		// 인포윈도우를 닫는 함수
+		function closeInfoWindow() {
+		  for (infowindow of infowindowArray) {
+		    infowindow.close();
+		  }
 		}
+		
+		$('div.cont').click(function() {
+			  var orgName = $(this).find('.title').text();
+	  		
+			  // markers 배열에서 title이 일치하는 마커 찾기
+			  for (let i = 0; i < markers.length; i++) {
+			        if (markers[i].getTitle() == orgName) {
+			            kakao.maps.event.trigger(markers[i], 'click'); // 마커 클릭 트리거
+			            break;
+			        }
+			  }
+		});
+		
+		kakao.maps.event.trigger(markers[0], 'click');
    		</script>
 
 </section>
-<%@ include file="/WEB-INF/views/includes/footer.jsp"%>
+<%@include file="/WEB-INF/views/includes/footer.jsp" %>

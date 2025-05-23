@@ -43,12 +43,12 @@
 		</table>
 		
 		<!-- 글쓰기 -->
-			<div class="btn_wrap">
+			<div class="bttn_wrap">
 				<!--
 					로그인 안했으면 : '로그인해주세요' alert;
 					로그인 했으면 : 글쓰기 페이지로 이동; 
 				-->
-				<button onClick="writeBtn()" class="btn ipt_sbm">글쓰기</button>
+				<button onClick="writeBtn()" class="bttn ipt_sbm">글쓰기</button>
 				<script>
 					let writeBtn = () => {
 						// 로그인 상태 아니면

@@ -42,13 +42,13 @@
                 </c:if>
             </div>
         </div>				
-        <div class="btn_wrap">
+        <div class="bttn_wrap">
             <!-- 해당 글 작성자 또는 관리자일 경우 버튼 표시 -->
 			<c:if test="${sessionScope.userId eq news.admin_id or sessionScope.userRole eq 'admin'}">
-                <button onClick="location.href='newsEdit.jsp?no=${news.news_no}'" class="btn">수정</button>
-                <button onClick="location.href='newsDelete.jsp?no=${news.news_no}'" class="btn">삭제</button>
+                <button onClick="location.href='newsEdit.jsp?no=${news.news_no}'" class="bttn">수정</button>
+                <button onClick="location.href='newsDelete.jsp?no=${news.news_no}'" class="bttn">삭제</button>
             </c:if>
-        	<a href="${pageContext.request.contextPath}/NewsList?pageNum=${pageNum}" class="btn ipt_sbm">목록</a>   
+        	<a href="${pageContext.request.contextPath}/NewsList?pageNum=${pageNum}" class="bttn ipt_sbm">목록</a>   
         </div>				
     </div>	
 </section>

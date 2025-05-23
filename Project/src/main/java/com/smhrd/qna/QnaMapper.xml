@@ -31,14 +31,8 @@
         UPDATE tb_qna SET qna_views = qna_views + 1
         WHERE qna_idx = #{qnaIdx}
     </update>
-
-
-
-
     
-    
-    
-    
+    <!-- 검색기능 -->
 	<select id="QnaSearch" resultType="com.smhrd.qna.QnaVO">
 		select * from tb_qna
 		<where>
@@ -55,12 +49,37 @@
 			</choose>
 		</where>
 	</select>
-
+	<!-- 글쓰기 기능 -->
 	<insert id="write" parameterType="com.smhrd.qna.QnaVO">
 		insert into tb_qna(qna_title, qna_content, qna_file, created_at,
 		qna_views, id) values(
 		#{qna_title}, #{qna_content}, #{qna_file}, systimestamp, #{qna_views}, #{id}
 		)
 	</insert>
+	
+	
+	
+	
+	
+	
+	<!-- 댓글 달기 수정 -->
+	<select id="getAnswerByQnaIdx" resultType="com.smhrd.answer.AnswerVO">
+	    SELECT * FROM tb_answer WHERE qna_idx = #{qna_idx}
+	</select>
+	
+	<insert id="insertAnswer" parameterType="com.smhrd.answer.AnswerVO">
+	    INSERT INTO tb_answer (qna_idx, answer_content, created_at, admin_id)
+	    VALUES (#{qna_idx}, #{answer_content}, SYSTIMESTAMP, #{admin_id})
+	</insert>
+	
+	<update id="updateAnswer" parameterType="com.smhrd.answer.AnswerVO">
+	    UPDATE tb_answer SET answer_content = #{answer_content}
+	    WHERE answer_idx = #{answer_idx}
+	</update>
+	
+	<delete id="deleteAnswer" parameterType="int">
+	    DELETE FROM tb_answer WHERE answer_idx = #{answer_idx}
+	</delete>
+	
 
 </mapper>

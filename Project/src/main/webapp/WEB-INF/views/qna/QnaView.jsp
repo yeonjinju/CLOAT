@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/views/includes/header.jsp"%>
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -13,10 +13,9 @@
 <section class="content board view list">
     <div class="page_top">
         <div class="inner">
-            <!-- 고객문의 제목을 상단에 출력 -->
             <h2 id="pageName">고객문의</h2>
         </div>
-    </div>			
+    </div>
     <div class="inner">
         <div class="view_wrap">
             <div class="view_top">
@@ -33,24 +32,52 @@
             </div>
             <div class="view_btm">
                 ${qna.qna_content}
-                
-                <!-- 첨부파일이 있을 경우 표시 -->
                 <c:if test="${not empty qna.qna_file}">
                     <div class="view_file">
-                        <a href="${pageContext.request.contextPath}/upload/${qna.qna_file}" download>${qna.qna_file}</a>
+                        <a href="${pageContext.request.contextPath}/upload/${qna.qna_file}" download>
+                            ${qna.qna_file}
+                        </a>
                     </div>
                 </c:if>
             </div>
-        </div>				
-        <div class="btn_wrap">
-            <!-- 해당 글 작성자 또는 관리자일 경우 버튼 표시 -->
-			<c:if test="${sessionScope.userId eq qna.id or sessionScope.userRole eq 'admin'}">
-                <button onClick="location.href='QnaEdit.jsp?no=${qna.qna_no}'" class="btn">수정</button>
-                <button onClick="location.href='QnaDelete.jsp?no=${qna.qna_no}'" class="btn">삭제</button>
-            </c:if>
-       		<a href="${pageContext.request.contextPath}/QnaList?pageNum=${pageNum}" class="btn ipt_sbm">목록</a>
-        </div>				
-    </div>	
+        </div>
+
+        <!-- 관리자 답변 영역 -->
+        <div class="admin_answer">
+            <h4>댓글</h4>
+            <c:choose>
+                <c:when test="${not empty answer}">
+                    <p>${answer.answer_content}</p>
+                    <p>작성자: ${answer.admin_id}</p>
+
+                    <!-- 관리자만 수정/삭제 가능 -->
+                    <c:if test="${sessionScope.mvo.user_type eq 'ADMIN'}">
+                        <form action="${pageContext.request.contextPath}/updateAnswer?id=${mvo.id}" method="post">
+                            <textarea name="answer_content">${answer.answer_content}</textarea>
+                            <input type="hidden" name="answer_idx" value="${answer.answer_idx}" />
+                            <input type="hidden" name="qna_idx" value="${qna.qna_idx}" />
+                            <input class="bttn " type="submit" value="수정">		
+                        </form>
+                        <form action="${pageContext.request.contextPath}/deleteAnswer?id=${mvo.id}" method="post">
+						    <input type="hidden" name="answer_idx" value="${answer.answer_idx}" />
+						    <input type="hidden" name="qna_idx" value="${qna.qna_idx}" />
+						    <input class="bttn" type="submit" value="삭제">		
+						</form>
+                    </c:if>
+                </c:when>
+                <c:otherwise>
+                    <c:if test="${sessionScope.mvo.user_type eq 'ADMIN'}">
+                        <form action="${pageContext.request.contextPath}/writeAnswer?id=${mvo.id}" method="post">
+                            <textarea name="answer_content" placeholder="답변 내용을 작성하세요."></textarea>
+                            <input type="hidden" name="qna_idx" value="${qna.qna_idx}" />
+                            <input class="bttn " type="submit" value="등록">		
+                        </form>
+                    </c:if>
+                </c:otherwise>
+            </c:choose>
+        </div>
+        
+    </div>
 </section>
 
 </body>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class MemberController {
@@ -45,7 +46,7 @@ public class MemberController {
         if (mvo != null) {
             // 로그인 성공 - 세션에 사용자 정보 저장
             session.setAttribute("mvo", mvo);
-            return "redirect://"; // 마이페이지로 이동
+            return "redirect:/"; // 마이페이지로 이동
         } else {
             // 로그인 실패 - 로그인 페이지로 되돌아가기
             return "redirect:/login";
@@ -116,7 +117,82 @@ public class MemberController {
             return "redirect:/login"; // 로그인 안 되어 있으면 로그인 페이지로 이동
         }
         model.addAttribute("member", mvo);
-        return "mypage/My_edit"; // 마이페이지 뷰 이름
+        return "mypage/MyGallery"; // 마이페이지 뷰 이름
     }
+    
+    @GetMapping("/MyLogin")
+    public String MyLogin() {
+        return "mypage/MyLogin";
+    }    
+    
+	@PostMapping("/login_to")
+	public String login_to(MemberVO vo) {
+		MemberVO mvo = mapper.login(vo);
+				
+		if (mvo != null) {
+			return "mypage/MyEdit"; // 내 정보수정 페이지로 이동
+		} else {
+			// 로그인 실패 - 로그인 페이지로 되돌아가기
+			return "mypage/MyLogin";
+		}
+	}    
+    
+    @GetMapping("/MyEdit")
+    public String MyEdit() {																																																																																		
+        return "mypage/MyEdit";
+    }
+   
+	@PostMapping("/Update")
+	public String update(@RequestParam(value= "file", required = false)MultipartFile file, MemberVO vo, Model model, 
+			RedirectAttributes redirectAttr, HttpSession session) {
+		System.out.println(vo);
+		String loc = context.getRealPath("/resources/file/");
+		FileOutputStream fos;
+		String fileDemo = null;
+		if (file != null && !file.isEmpty()) {
+			fileDemo = file.getOriginalFilename();
+			if(fileDemo.length() > 0) {
+				try {
+					String baseName = fileDemo.substring(0, fileDemo.lastIndexOf(".")); //4
+					String extension = fileDemo.substring(fileDemo.lastIndexOf("."));   //.jpg
+					fileDemo = baseName + '_' + UUID.randomUUID().toString() + extension;
+					File targetFile = new File(loc, fileDemo);
+					fos = new FileOutputStream(targetFile); // 파일저장경로 + 파일저장명
+					fos.write(file.getBytes());  // 우리가 진짜 가져온 파일로 쓰기
+					fos.close();  // 이건 안써줘도 되는 코드지만 용량 절약을 습관화
+				} catch (Exception e) {
+		            e.printStackTrace();
+		            redirectAttr.addFlashAttribute("msg", "파일 업로드 중 오류가 발생했습니다.");
+		            return "mypage/MyEdit";					
+				}
+			}
+		}
+		vo.setProfile_img(fileDemo);
 
+		int result = mapper.update(vo);
+		session.setAttribute("mvo", vo);	
+	    if (result > 0) {
+	        redirectAttr.addFlashAttribute("msg", "정보수정이 완료되었습니다.");
+	    } else {
+	        redirectAttr.addFlashAttribute("msg", "정보수정에 실패했습니다. 다시 시도해주세요.");	        
+	    }
+	    return "redirect:/MyEdit";
+		
+	}
+	
+    @GetMapping("/MyGallery")
+    public String MyGallery() {
+        return "mypage/MyGallery";
+    }
+    
+    @GetMapping("/MyQna")
+    public String MyQna() {
+        return "mypage/MyQna";
+    }
+    
+    @GetMapping("/MyReview")
+    public String MyReview() {
+        return "mypage/MyReview";
+    }    
+    
 }

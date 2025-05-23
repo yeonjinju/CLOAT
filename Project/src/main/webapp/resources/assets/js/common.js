@@ -13,3 +13,17 @@ $(window).on('scroll load', function() {
 function pageTop() {
 	$('html, body').animate({ scrollTop: '0' }, 600);
 }	
+
+// 비밀번호 확인
+function pkView(el) {
+	const $input = $(el).prev('input');
+	const $img = $(el).find('img');
+
+	if ($input.attr('type') === 'password') {
+		$input.attr('type', 'text');
+		$img.attr('src', 'resources/images/visibility.svg');
+	} else {
+		$input.attr('type', 'password');
+		$img.attr('src', 'resources/images/visibility_off.svg');
+	}
+}
