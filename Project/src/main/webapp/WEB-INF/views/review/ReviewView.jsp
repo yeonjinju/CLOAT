@@ -41,18 +41,44 @@
                     </div>
                 </c:if>
             </div>
-        </div>				
-        <div class="bttn_wrap">
-            <!-- 해당 글 작성자 또는 관리자일 경우 버튼 표시 -->
-			<c:if test="${sessionScope.userId eq review.id or sessionScope.userRole eq 'admin'}">
-                <button onClick="location.href='ReviewEdit.jsp?no=${review.review_no}'" class="bttn">수정</button>
-                <button onClick="location.href='ReviewDelete.jsp?no=${review.review_no}'" class="bttn">삭제</button>
-            </c:if>
-            <a href="${pageContext.request.contextPath}/ReviewList?pageNum=${pageNum}" class="bttn ipt_sbm">목록</a>
-        </div>				
+        </div>
+        
+        <!-- 관리자 답변 영역 -->
+        <div class="admin_answer">
+            <h4>댓글</h4>
+            <c:choose>
+                <c:when test="${not empty answer}">
+                    <p>${answer.cmt_content}</p>
+                    <p>작성자: ${answer.id}</p>
+
+                    <!-- 관리자만 수정/삭제 가능 -->
+                    <c:if test="${sessionScope.mvo.user_type eq 'ADMIN'}">
+                        <form action="${pageContext.request.contextPath}/updateReviewAnswer?id=${mvo.id}" method="post">
+                            <textarea name="cmt_content">${answer.cmt_content}</textarea>
+                            <input type="hidden" name="cmt_idx" value="${answer.cmt_idx}" />
+                            <input type="hidden" name="review_idx" value="${review.review_idx}" />
+                            <input class="bttn " type="submit" value="수정">		
+                        </form>
+                        <form action="${pageContext.request.contextPath}/deleteReviewAnswer?id=${mvo.id}" method="post">
+						    <input type="hidden" name="cmt_idx" value="${answer.cmt_idx}" />
+						    <input type="hidden" name="review_idx" value="${review.review_idx}" />
+						    <input class="bttn" type="submit" value="삭제">		
+						</form>
+                    </c:if>
+                </c:when>
+                <c:otherwise>
+                    <c:if test="${sessionScope.mvo.user_type eq 'ADMIN'}">
+                        <form action="${pageContext.request.contextPath}/writeReviewAnswer?id=${mvo.id}" method="post">
+                            <textarea name="cmt_content" placeholder="답변 내용을 작성하세요."></textarea>
+                            <input type="hidden" name="review_idx" value="${review.review_idx}" />
+                            <input class="bttn " type="submit" value="등록">		
+                        </form>
+                    </c:if>
+                </c:otherwise>
+            </c:choose>
+        </div>	
     </div>	
 </section>
-
 </body>
 </html>
 

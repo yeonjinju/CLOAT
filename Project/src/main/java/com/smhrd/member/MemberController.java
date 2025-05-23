@@ -79,7 +79,7 @@ public class MemberController {
     public String join_us(@RequestParam(value= "file", required = false) MultipartFile file, MemberVO vo, Model model) {
         String loc = context.getRealPath("/resources/file/");
         FileOutputStream fos;
-        String fileDemo = "null";
+        String fileDemo = null;
 
         if (file != null && !file.isEmpty()) {
             fileDemo = file.getOriginalFilename();

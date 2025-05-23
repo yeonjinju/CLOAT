@@ -28,9 +28,11 @@
 			<c:forEach items="${list}" var="bvo">
 				<tr>
 					<td>${bvo.review_idx}</td>
-					<td class="tb_title"><a
-						href="${pageContext.request.contextPath}/reviewview?no=${bvo.review_idx}&pageNum=${pageNum}">${bvo.review_title}</a>
-					</td>
+					<td class="tb_title"><a href="${pageContext.request.contextPath}/reviewview?no=${bvo.review_idx}&pageNum=${pageNum}">${bvo.review_title}
+						<c:if test="${bvo.cmt_idx != 0}">
+  							(1)
+						</c:if>	
+					</a></td>
 					<td>${bvo.id}</td>
 					<td><fmt:formatDate value="${bvo.created_at}"
 							pattern="yyyy.MM.dd" /></td>

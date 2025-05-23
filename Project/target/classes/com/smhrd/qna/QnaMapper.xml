@@ -19,7 +19,7 @@
         SELECT * FROM (
             SELECT ROWNUM rn, a.*
             FROM (
-                SELECT * FROM tb_qna ORDER BY created_at DESC
+                SELECT q.*, an.answer_idx FROM tb_qna q left join tb_answer an on q.qna_idx = an.qna_idx ORDER BY q.created_at DESC
             ) a
             WHERE ROWNUM <= #{endRow}
         )
@@ -44,7 +44,7 @@
 					qna_content LIKE '%' || #{param2} || '%'
 				</when>
 				<otherwise>
-					admin_id = null
+					admin_id is null
 				</otherwise>
 			</choose>
 		</where>
@@ -63,23 +63,24 @@
 	
 	
 	<!-- 댓글 달기 수정 -->
-	<select id="getAnswerByQnaIdx" resultType="com.smhrd.answer.AnswerVO">
+	<select id="getAnswerByQnaIdx" resultType="com.smhrd.qna.QnaVO">
 	    SELECT * FROM tb_answer WHERE qna_idx = #{qna_idx}
 	</select>
 	
-	<insert id="insertAnswer" parameterType="com.smhrd.answer.AnswerVO">
+	<insert id="insertAnswer" parameterType="com.smhrd.qna.QnaVO">
 	    INSERT INTO tb_answer (qna_idx, answer_content, created_at, admin_id)
 	    VALUES (#{qna_idx}, #{answer_content}, SYSTIMESTAMP, #{admin_id})
 	</insert>
 	
-	<update id="updateAnswer" parameterType="com.smhrd.answer.AnswerVO">
+	<update id="updateQnaAnswer" parameterType="com.smhrd.qna.QnaVO">
 	    UPDATE tb_answer SET answer_content = #{answer_content}
 	    WHERE answer_idx = #{answer_idx}
 	</update>
 	
-	<delete id="deleteAnswer" parameterType="int">
+	<delete id="deleteQnaAnswer" parameterType="int">
 	    DELETE FROM tb_answer WHERE answer_idx = #{answer_idx}
 	</delete>
 	
-
+	
+	
 </mapper>

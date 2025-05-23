@@ -19,4 +19,15 @@ public class ReviewVO {
 	private Date updated_at;
 	private int review_views;
 	private String id;
+	
+	
+	
+
+	
+    private int cmt_idx;
+    private String cmt_content;
+    private int cmt_heart;
+    private String admin_id;
+    
+
 }

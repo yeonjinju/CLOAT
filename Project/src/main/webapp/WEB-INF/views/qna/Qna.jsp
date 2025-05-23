@@ -28,9 +28,11 @@
 			<c:forEach items="${list}" var="bvo">
 				<tr>
 					<td>${bvo.qna_idx}</td>
-					<td class="tb_title">
-					    <a href="${pageContext.request.contextPath}/qnaview?no=${bvo.qna_idx}&pageNum=${pageNum}">${bvo.qna_title}</a>
-					</td>
+					<td class="tb_title"><a href="${pageContext.request.contextPath}/qnaview?no=${bvo.qna_idx}&pageNum=${pageNum}">${bvo.qna_title}
+						<c:if test="${bvo.answer_idx != 0}">
+  							(1)
+						</c:if>	
+					</a></td>
 					<td>${bvo.id}</td>
 					<td><fmt:formatDate value="${bvo.created_at}"
 							pattern="yyyy.MM.dd" /></td>
@@ -41,15 +43,15 @@
 				<p>게시물이 없습니다.</p>
 			</c:if>
 		</table>
-		
+
 		<!-- 글쓰기 -->
-			<div class="bttn_wrap">
-				<!--
+		<div class="bttn_wrap">
+			<!--
 					로그인 안했으면 : '로그인해주세요' alert;
 					로그인 했으면 : 글쓰기 페이지로 이동; 
 				-->
-				<button onClick="writeBtn()" class="bttn ipt_sbm">글쓰기</button>
-				<script>
+			<button onClick="writeBtn()" class="bttn ipt_sbm">글쓰기</button>
+			<script>
 					let writeBtn = () => {
 						// 로그인 상태 아니면
 						//alert('로그인해주세요');
@@ -62,8 +64,8 @@
 						// 로그인 상태면
 						// -> 아이디 정보 가지고 글쓰기 페이지로 이동
 					}
-				</script>				
-			</div>
+				</script>
+		</div>
 
 		<!-- 페이징 -->
 		<div class="pg_wrap">
@@ -97,20 +99,20 @@
 		</div>
 
 
-			<!-- 검색창 -->
-			<div class="search_form">
-				<form action="QnaSearch">
-					<select class="sel" name="searchValue">
-						<!-- <option name="">내용+댓글</option> -->
-						<option value="qna_content">내용</option>
-						<option value="qna_title">제목</option>
-						<option value="id">작성자</option>
-					</select>
-					<input class="ipt_tt" type="text" name="searchContent" placeholder="검색어 입력">
-					<input class="ipt_sbm" type="submit" value="검색">
-				</form>
-			</div>
-			
-		</div>	
-	</section>
+		<!-- 검색창 -->
+		<div class="search_form">
+			<form action="QnaSearch">
+				<select class="sel" name="searchValue">
+					<!-- <option name="">내용+댓글</option> -->
+					<option value="qna_content">내용</option>
+					<option value="qna_title">제목</option>
+					<option value="id">작성자</option>
+				</select> <input class="ipt_tt" type="text" name="searchContent"
+					placeholder="검색어 입력"> <input class="ipt_sbm" type="submit"
+					value="검색">
+			</form>
+		</div>
+
+	</div>
+</section>
 <%@ include file="/WEB-INF/views/includes/footer.jsp"%>

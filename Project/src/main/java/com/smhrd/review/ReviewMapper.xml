@@ -19,7 +19,7 @@
         SELECT * FROM (
             SELECT ROWNUM rn, a.*
             FROM (
-                SELECT * FROM tb_review ORDER BY created_at DESC
+                SELECT t.*, cm.cmt_idx FROM tb_review t left join tb_comment cm on t.review_idx = cm.review_idx ORDER BY t.created_at DESC
             ) a
             WHERE ROWNUM <= #{endRow}
         )
@@ -37,13 +37,7 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
+    <!-- 검색기능 -->
 	<select id="ReviewSearch" resultType="com.smhrd.review.ReviewVO">
 		select * from tb_review
 		<where>
@@ -54,23 +48,47 @@
 				<when test="param1 == 'review_content'">
 					review_content LIKE '%' || #{param2} || '%'
 				</when>
-				<when test="param1 == 'id'">
-					id LIKE '%' || #{param2} || '%'
-				</when>
 				<otherwise>
-					id = null
+					id is null
 				</otherwise>
 			</choose>
 		</where>
 	</select>
-
+	<!-- 글쓰기 기능 -->
 	<insert id="write" parameterType="com.smhrd.review.ReviewVO">
 		insert into tb_review(review_title, review_content, review_file, created_at,
-		updated_at, review_views, id) values(
-		#{review_title},
-		#{review_content}, #{review_file}, systimestamp, systimestamp,
-		#{review_views}, #{id}
+		review_views, id) values(
+		#{review_title}, #{review_content}, #{review_file}, systimestamp, #{review_views}, #{id}
 		)
 	</insert>
+	
+	
+	
+	
+	
+	
+	<!-- 댓글 달기 수정 -->
+	<select id="getAnswerByReviewIdx" resultType="com.smhrd.review.ReviewVO">
+	    SELECT * FROM tb_comment WHERE review_idx = #{review_idx}
+	</select>
+	
+	<insert id="insertReviewAnswer" parameterType="com.smhrd.review.ReviewVO">
+	    INSERT INTO tb_comment (
+	        review_idx, cmt_content, created_at, updated_at, id, cmt_heart
+	    ) VALUES (
+	        #{review_idx}, #{cmt_content}, SYSTIMESTAMP, SYSTIMESTAMP, #{id}, 0
+	    )
+	</insert>
+
+	
+	<update id="updateReviewAnswer" parameterType="com.smhrd.review.ReviewVO">
+	    UPDATE tb_comment SET cmt_content = #{cmt_content}
+	    WHERE cmt_idx = #{cmt_idx}
+	</update>
+	
+	<delete id="deleteReviewAnswer" parameterType="int">
+	    DELETE FROM tb_comment WHERE cmt_idx = #{cmt_idx}
+	</delete>
+	
 
 </mapper>

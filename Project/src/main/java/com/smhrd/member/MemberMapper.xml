@@ -10,7 +10,7 @@
       INSERT INTO tb_user (
     ID, PW, NAME, EMAIL, PHONE, PROFILE_IMG, USER_TYPE, CREATED_AT
 ) VALUES (
-    #{id}, #{pw}, #{name}, #{email}, #{phone}, #{profile_img}, #{user_type}, SYSTIMESTAMP
+    #{id}, #{pw}, #{name}, #{email}, #{phone}, #{profile_img, jdbcType=VARCHAR}, #{user_type}, SYSTIMESTAMP
 )
    </insert>
    
@@ -19,7 +19,7 @@
   	</select>
   		
  	<update id="update" parameterType="com.smhrd.member.MemberVO">
-		update tb_user set pw=#{pw}, email=#{email}, phone=#{phone}, profile_img=#{profile_img} where id=#{id}
+		update tb_user set pw=#{pw}, email=#{email}, phone=#{phone}, profile_img=#{profile_img, jdbcType=VARCHAR} where id=#{id}
 	</update> 	
   	   
 </mapper>

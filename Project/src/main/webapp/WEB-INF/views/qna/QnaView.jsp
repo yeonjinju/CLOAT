@@ -32,11 +32,11 @@
             </div>
             <div class="view_btm">
                 ${qna.qna_content}
+                
+                
                 <c:if test="${not empty qna.qna_file}">
                     <div class="view_file">
-                        <a href="${pageContext.request.contextPath}/upload/${qna.qna_file}" download>
-                            ${qna.qna_file}
-                        </a>
+                        <a href="${pageContext.request.contextPath}/upload/${qna.qna_file}" download>${qna.qna_file}</a>
                     </div>
                 </c:if>
             </div>
@@ -52,13 +52,13 @@
 
                     <!-- 관리자만 수정/삭제 가능 -->
                     <c:if test="${sessionScope.mvo.user_type eq 'ADMIN'}">
-                        <form action="${pageContext.request.contextPath}/updateAnswer?id=${mvo.id}" method="post">
+                        <form action="${pageContext.request.contextPath}/updateQnaAnswer?id=${mvo.id}" method="post">
                             <textarea name="answer_content">${answer.answer_content}</textarea>
                             <input type="hidden" name="answer_idx" value="${answer.answer_idx}" />
                             <input type="hidden" name="qna_idx" value="${qna.qna_idx}" />
                             <input class="bttn " type="submit" value="수정">		
                         </form>
-                        <form action="${pageContext.request.contextPath}/deleteAnswer?id=${mvo.id}" method="post">
+                        <form action="${pageContext.request.contextPath}/deleteQnaAnswer?id=${mvo.id}" method="post">
 						    <input type="hidden" name="answer_idx" value="${answer.answer_idx}" />
 						    <input type="hidden" name="qna_idx" value="${qna.qna_idx}" />
 						    <input class="bttn" type="submit" value="삭제">		
@@ -67,7 +67,7 @@
                 </c:when>
                 <c:otherwise>
                     <c:if test="${sessionScope.mvo.user_type eq 'ADMIN'}">
-                        <form action="${pageContext.request.contextPath}/writeAnswer?id=${mvo.id}" method="post">
+                        <form action="${pageContext.request.contextPath}/writeQnaAnswer?id=${mvo.id}" method="post">
                             <textarea name="answer_content" placeholder="답변 내용을 작성하세요."></textarea>
                             <input type="hidden" name="qna_idx" value="${qna.qna_idx}" />
                             <input class="bttn " type="submit" value="등록">		
@@ -76,9 +76,7 @@
                 </c:otherwise>
             </c:choose>
         </div>
-        
     </div>
 </section>
-
 </body>
 </html>

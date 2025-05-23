@@ -2,6 +2,8 @@ package com.smhrd.upload;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.ServletContext;
 
@@ -24,6 +26,10 @@ public class UploadController {
 	    System.out.println("저장 경로: " + loc);
 		FileOutputStream fos;
 		String fileDemo = file.getOriginalFilename();
+		
+		// 공백 치환
+	    fileDemo = fileDemo.replaceAll(" ", "_"); 
+	    
 		System.out.println(loc);
 		if(fileDemo.length() > 0) {
 			try {
@@ -37,7 +43,14 @@ public class UploadController {
 			}
 		}
 		
-		return fileDemo;
+		//return fileDemo;
+		
+		// ★ 한글 포함 시 URL 인코딩하여 반환
+	    try {
+	        return URLEncoder.encode(fileDemo, StandardCharsets.UTF_8.toString());
+	    } catch (Exception e) {
+	        return fileDemo; // fallback
+	    }
 		
 	}
 	

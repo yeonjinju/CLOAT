@@ -2,7 +2,6 @@ package com.smhrd.qna;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.smhrd.answer.AnswerVO;
 
 @Service
 public class QnaService {
@@ -10,37 +9,35 @@ public class QnaService {
     @Autowired
     private QnaMapper qnaMapper;
 
-    // 조회수 증가
-    public void increaseViews(int qnaNo) {
+    public void increaseViews(int qnaNo) { // 조회수 증가
         qnaMapper.updateQnaViews(qnaNo);
     }
 
-    // Qna 상세 게시글 조회
-    public QnaVO getQnaDetail(int qnaIdx) {
+    public QnaVO getQnaDetail(int qnaIdx) { // Qna 상세 게시글 조회
         return qnaMapper.getQna(qnaIdx);
     }
 
-    // Qna 상세 게시글 조회 (문자열 받아서 int 변환)
-    public QnaVO getQnaDetail(String reNum) {
+    public QnaVO getQnaDetail(String reNum) { // Qna 상세 게시글 조회 (문자열 받아서 int 변환)
         int qnaIdx = Integer.parseInt(reNum);
         return getQnaDetail(qnaIdx);
     }
 
     // Answer 조회
-    public AnswerVO getAnswer(int qnaIdx) {
+    public QnaVO getAnswer(int qnaIdx) {
         return qnaMapper.getAnswerByQnaIdx(qnaIdx);
     }
     
     // Answer 작성
-    public int writeAnswer(AnswerVO vo) {
+    public int writeQnaAnswer(QnaVO vo) {
         return qnaMapper.insertAnswer(vo);
     }
     // Answer 수정
-    public int updateAnswer(AnswerVO vo) {
-        return qnaMapper.updateAnswer(vo);
+    public int updateQnaAnswer(QnaVO vo) {
+        return qnaMapper.updateQnaAnswer(vo);
     }
     // Answer 삭제
-    public int deleteAnswer(AnswerVO vo) {
-        return qnaMapper.deleteAnswer(vo);
+    public int deleteQnaAnswer(QnaVO vo) {
+        return qnaMapper.deleteQnaAnswer(vo);
     }
+
 }

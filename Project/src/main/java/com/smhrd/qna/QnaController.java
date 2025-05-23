@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.smhrd.answer.AnswerVO;
 
 @Controller
 public class QnaController {
@@ -38,7 +37,7 @@ public class QnaController {
 			@RequestParam(value = "pageNum", defaultValue = "1") int pageNum, Model model) {
 		qnaService.increaseViews(qnaIdx);
 		QnaVO qna = mapper.getQna(qnaIdx);
-		AnswerVO answer = qnaService.getAnswer(qnaIdx);
+		QnaVO answer = qnaService.getAnswer(qnaIdx);
 
 		model.addAttribute("qna", qna);
 		model.addAttribute("answer", answer);
@@ -47,20 +46,15 @@ public class QnaController {
 	}
 
 	// Answer 작성
-	@RequestMapping(value = "/writeAnswer", method = RequestMethod.POST)
-	public String writeAnswer(AnswerVO vo, HttpSession session, @RequestParam String id) {
-//	    String loginId = (String) session.getAttribute("loginId");
-//	    System.out.println("loginId : " + loginId);
+	@RequestMapping(value = "/writeQnaAnswer", method = RequestMethod.POST)
+	public String writeQnaAnswer(QnaVO vo, HttpSession session, @RequestParam String id) {
+
 		System.out.println("loginId : " + id);
 		System.out.println("Qna_idx : " + vo.getQna_idx());
-//	    if (loginId == null || !loginId.equals("ADMIN")) {
-//	        return "redirect:/QnaView?no=" + vo.getQna_idx();
-//	    }
 
-//	    vo.setAdmin_id(loginId);
 		vo.setAdmin_id(id);
 		System.out.println(vo);
-		int result = qnaService.writeAnswer(vo);
+		int result = qnaService.writeQnaAnswer(vo);
 
 		if (result > 0) {
 			System.out.println("댓글 작성 성공");
@@ -72,8 +66,8 @@ public class QnaController {
 	}
 
 	// Answer 수정
-	@RequestMapping("/updateAnswer")
-	public String updateAnswer(AnswerVO vo, HttpSession session, @RequestParam String id) {
+	@RequestMapping("/updateQnaAnswer")
+	public String updateQnaAnswer(QnaVO vo, HttpSession session, @RequestParam String id) {
 
 		System.out.println("loginId : " + id);
 		System.out.println("Qna_idx : " + vo.getQna_idx());
@@ -81,7 +75,7 @@ public class QnaController {
 		vo.setAdmin_id(id);
 		System.out.println(vo);
 
-		int result = qnaService.updateAnswer(vo);
+		int result = qnaService.updateQnaAnswer(vo);
 
 		if (result > 0) {
 			System.out.println("댓글 수정 성공");
@@ -92,8 +86,8 @@ public class QnaController {
 	}
 
 	// Answer 삭제
-	@RequestMapping("/deleteAnswer")
-	public String deleteAnswer(AnswerVO vo, HttpSession session, @RequestParam String id) {
+	@RequestMapping("/deleteQnaAnswer")
+	public String deleteQnaAnswer(QnaVO vo, HttpSession session, @RequestParam String id) {
 		
 		System.out.println("loginId : " + id);
 		System.out.println("Qna_idx : " + vo.getQna_idx());
@@ -101,11 +95,7 @@ public class QnaController {
 		vo.setAdmin_id(id);
 		System.out.println(vo);
 		
-		int result = qnaService.deleteAnswer(vo);
-		//String loginId = (String) session.getAttribute("loginId");
-//		if (loginId == null || !loginId.equals("ADMIN")) {
-	//		return "redirect:/errorPage";
-		//}
+		int result = qnaService.deleteQnaAnswer(vo);
 
 		if (result > 0) {
 			System.out.println("댓글 삭제 성공");
@@ -115,7 +105,13 @@ public class QnaController {
 
 		return "redirect:/qnaview?no=" + vo.getQna_idx();
 	}
+	
+	@RequestMapping("/qnacommentlist")
+	public String qnacommentlist() {
+		return null;
+	}
 
+	
 	// 공지사항 목록 + 페이징 처리
 	@RequestMapping("/QnaList")
 	public String qnaList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum, Model model) {
